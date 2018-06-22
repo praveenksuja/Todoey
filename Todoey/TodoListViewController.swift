@@ -11,9 +11,15 @@ import UIKit
 class TodoListViewController: UITableViewController {
 
     var itemArray = ["Go to Gym at 6 PM", "Call to home", "Study in the evening"]
+    
+    let defaults = UserDefaults.standard
     var cell: UITableViewCell!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let item = UserDefaults.standard.array(forKey: "TodoListArray") as? [String] {
+            itemArray = item
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -49,6 +55,7 @@ class TodoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             // What will happen once the user clicks the add Item button on our UIAlert
             self.itemArray.append( textField.text!)
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             self.tableView.reloadData()
            
         }
